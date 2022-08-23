@@ -22,45 +22,34 @@
 <script type="text/javascript">
     var canvas = null;
     var contexto = null;
-    var color = "red";
-    var colorDos = "blue";
     var figura = 'arc';
-    var press = false;
-    var superX=250;
-    var superY=250;
     var playerUno = null;
     var playerDos=null;
     var direccion="derecha";
     var score=0;
-    var speed=10;
+    var speed=5;
 
     //movimientos de teclado
     document.addEventListener('keydown',function(e){
         if(e.keyCode == 87 || e.keyCode ==38){
-            //superY-=10;
             direccion="up";
         }
         if(e.keyCode == 83 || e.keyCode ==40){
-           // superY+=10;
            direccion="down";
         }
         if(e.keyCode == 65 || e.keyCode ==37){
-           // superX-=10;
            direccion="left";
         }
         if(e.keyCode == 68 || e.keyCode ==39){
-           // superX+=10;
            direccion="right";
         }
         console.log(direccion);
-        // paint();
 
     })
 
     function run(){
         canvas = document.getElementById('myCanvas');
         contexto = canvas.getContext('2d');
-
         playerUno = new Cuadro(200,200,20,20,"red");
         playerDos = new Cuadro(100,100,20,20,"blue");
         paint();
@@ -72,14 +61,15 @@
         contexto.fillRect(0,0,500,500);
         
         playerUno.paint(contexto);
+        //Movimiento trabajo 21
         //playerUno.x +=5;
         //if(playerUno.x>500){
             // playerUno.x=0;
             //}
-            contexto.font = "20px Arial";
-            contexto.fillText("Speed: "+speed+" - Score: "+score, 20,20);
-            playerDos.paint(contexto);
-            update();
+        contexto.font = "20px Arial";
+        contexto.fillText("Speed: "+speed+" - Score: "+score, 20,20);
+        playerDos.paint(contexto);
+        update();
     }
     function update(){
         
@@ -126,8 +116,6 @@
 
         this.se_tocan = function (target) { 
 
-
-
             if(this.x < target.x + target.w &&
 
             this.x + this.w > target.x && 
@@ -141,7 +129,6 @@
             return true;	 
 
             }  
-
         };
 
         this.paint = function(contexto){
