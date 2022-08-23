@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style type="text/css">
+        canvas{
+            background-color: rgb(138,138,209); 
+            border-radius: 10px;
+            border-color: rgb(1, 1, 12);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500">
+        Hola en navegador
+    <canvas>
+        <img src="goku.jpg" id="imagen" style="display:none">
+</body>
+</html>
+<script type="text/javascript">
+    var canvas = null;
+    var contexto = null;
+    var color = "red";
+    var colorDos = "blue";
+    var figura = 'arc';
+    var press = false;
+    var superX=250;
+    var superY=250;
+    var playerUno = null;
+    var playerDos=null;
+    var direccion="derecha";
+    var score=0;
+    var speed=10;
+
+    //movimientos de teclado
+    document.addEventListener('keydown',function(e){
+        console.log(e);
+        if(e.keyCode == 87 || e.keyCode ==38){
+            //superY-=10;
+            direccion="up";
+        }
+        if(e.keyCode == 83 || e.keyCode ==40){
+           // superY+=10;
+           direccion="down";
+        }
+        if(e.keyCode == 65 || e.keyCode ==37){
+           // superX-=10;
+           direccion="left";
+        }
+        if(e.keyCode == 68 || e.keyCode ==39){
+           // superX+=10;
+           direccion="right";
+        }
+        // paint();
+
+    })
+
+    function run(){
+        canvas = document.getElementById('myCanvas');
+        contexto = canvas.getContext('2d');
+
+        playerUno = new Cuadro(200,200,20,20,"red");
+        //playerDos = new Cuadro(200,200,20,20,"red");
+        paint();
+    }
+    
+    function paint(){
+        window.requestAnimationFrame(paint);
+            contexto.fillStyle = "rgb(0,0,128,0.5)";
+            contexto.fillRect(0,0,500,500);
+            //contexto.fillStyle = "red";
+            //contexto.fillRect(superX,superY,50,50);
+            //contexto.strokeRect(superX,superY,50,50);
+            playerUno.paint(contexto);
+            playerUno.x +=5;
+            if(playerUno.x>500){
+                playerUno.x=0;
+            }
+            //playerDos.paint(contexto);
+            //update();
+    }
+    function update(){
+        console.log(e);
+        if(direccion=="up"){
+            playerUno-=speed;
+            direccion="up";
+            if(playerUno.y<0){
+                playerUno.y=500;
+            }
+        }
+        if(direccion=="down"){
+           playerUno.y+=speed;
+           if(playerUno.y>500){
+                playerUno.y=0;
+            }
+        }
+        if(direccion=="left"){
+           palyerUno.x-=speed;
+           if(playerUno.x<0){
+                playerUno.x=500;
+            }
+        }
+        if(direccion=="right"){
+           playerUno.x+=speed;
+           if(playerUno.x>500){
+                playerUno.x=0;
+            }
+        }
+        if (playerUno.se_tocan(playerDos)) {
+            playerDos.x;
+            playerDos.y;
+            speed += 10;
+            score += 10;
+        }
+     
+    }
+
+    function Cuadro(x,y,w,h,c){
+        this.x=x;
+        this.y=y;
+        this.w = w;
+        this.h=h;
+        this.c=c;
+
+        this.se_tocan = function (target) { 
+
+            if(this.x < target.x + target.w &&
+
+				   this.x + this.w > target.x && 
+
+				   this.y < target.y + target.h && 
+
+				   this.y + this.h > target.y)
+
+				{
+
+					return true;	 
+
+				}  
+        };
+
+        this.paint = function(contexto){
+            contexto.fillStyle = this.c;
+            contexto.fillRect(this.x,this.y,this.w,this.h);
+            contexto.strokeRect(this.x,this.y,this.w,this.h);
+        }
+    }
+
+    
+    window.requestAnimationFrame = (function () {
+        return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 17);
+        };
+    }());
+
+    window.addEventListener('load',run,false);
+    
+    //function random_rgba(){}
+</script>
